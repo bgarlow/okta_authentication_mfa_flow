@@ -1,0 +1,520 @@
+{
+	"info": {
+		"_postman_id": "a07205ac-9f5e-4613-932b-2731a823db04",
+		"name": "MFA Flow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get MFA_ENROLL policies for org",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "SSWS {{apikey}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/api/v1/policies?type=MFA_ENROLL",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"policies"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "MFA_ENROLL"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get OKTA_SIGN_ON policies for org",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "SSWS {{apikey}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/api/v1/policies?type=OKTA_SIGN_ON",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"policies"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "OKTA_SIGN_ON"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Factors",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "SSWS {{apikey}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/api/v1/users/{{userId}}/factors",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId}}",
+						"factors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Factors to Enroll",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "SSWS {{apikey}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/api/v1/users/{{userId}}/factors/catalog",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId}}",
+						"factors",
+						"catalog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Primary Authentication ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d0f01bd-e11a-4fc1-be22-40a8067b7d7b",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"sessionToken\", jsonData.sessionToken);",
+							"console.log(jsonData)",
+							"console.log(jsonData.sessionToken)"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"jeff.beck\",\n  \"password\": \"D3m0demo1\",\n  \"options\": {\n    \"multiOptionalFactorEnroll\": true,\n    \"warnBeforePasswordExpired\": false\n  }  \n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/authn",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"authn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Transaction  State",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"stateToken\": \"{{stateToken}}\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/authn",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"authn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify SMS Factor (new OTP challenge)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "SSWS {{apikey}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n}  "
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/users/{{userId}}/factors/{{factorId}}/verify",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId}}",
+						"factors",
+						"{{factorId}}",
+						"verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify SMS Factor (verify token)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"stateToken\": \"{{stateToken}}\",\n\t\"passCode\": \"182145\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/authn/factors/{{factorId}}/verify",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"authn",
+						"factors",
+						"{{factorId}}",
+						"verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enroll Google Authenticator Factor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "SSWS {{apikey}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"factorType\": \"token:software:totp\",\n  \"provider\": \"GOOGLE\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/users/{{userId}}/factors",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId}}",
+						"factors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate TOTP Factor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "SSWS {{apikey}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"passCode\": \"739841\"\n}  "
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/users/{{userId}}/factors/{{factorId}}/lifecycle/activate",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId}}",
+						"factors",
+						"{{factorId}}",
+						"lifecycle",
+						"activate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify TOTP Factor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "SSWS {{apikey}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"passCode\": \"737435\"\n}  "
+				},
+				"url": {
+					"raw": "{{url}}/api/v1/users/{{userId}}/factors/{{factorId}}/verify",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId}}",
+						"factors",
+						"{{factorId}}",
+						"verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exchange sessionToken for Access Token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/oauth2/v1/authorize?client_id=0oa85rseydOnStvGX1t7&response_type=id_token&scope=openid&prompt=none&redirect_uri=http%3A%2F%2Flocalhost%3A8080&state=Af0ifjslDkj&nonce=n-0S6_WzA2Mj&sessionToken={{sessionToken}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"oauth2",
+						"v1",
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "0oa85rseydOnStvGX1t7"
+						},
+						{
+							"key": "response_type",
+							"value": "id_token"
+						},
+						{
+							"key": "scope",
+							"value": "openid"
+						},
+						{
+							"key": "prompt",
+							"value": "none"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "http%3A%2F%2Flocalhost%3A8080"
+						},
+						{
+							"key": "state",
+							"value": "Af0ifjslDkj"
+						},
+						{
+							"key": "nonce",
+							"value": "n-0S6_WzA2Mj"
+						},
+						{
+							"key": "sessionToken",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sessionCookieRedirect",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/login/sessionCookieRedirect?token={{sessionToken}}&redirectUrl={{redirectUrl}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login",
+						"sessionCookieRedirect"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{sessionToken}}"
+						},
+						{
+							"key": "redirectUrl",
+							"value": "{{redirectUrl}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Current Session",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/api/v1/sessions/me",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sessions",
+						"me"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
