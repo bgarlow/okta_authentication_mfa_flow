@@ -10,11 +10,11 @@ This document illustrates the basic API calls needed to register a user, enroll 
 
 The documentation below and the included Postman collection invoke Okta's REST APIs directly. Okta also provides a JavaScript library that wraps some of these calls to make deploying a custom sign-in page even easier. Okta's Auth JavaScript SDK can be found on Github: [okta-auth-js](https://github.com/okta/okta-auth-js). 
 
-##Transaction State
+## Transaction State
 
 ![Transaction State](https://developer.okta.com/assets/auth-state-model-48fff4b8914b83daa082cd43df970a643876454227f5eedc5729cbb55d5d4d64.png)
 
-###Authentication API (Primary Authentication)
+### Authentication API (Primary Authentication)
 
 https://developer.okta.com/docs/api/resources/authn#primary-authentication
 __Postman Request: _Primary Authentication___
@@ -35,7 +35,7 @@ curl -X POST \
 }'
 ```
 
-####status: SUCCESS
+#### status: SUCCESS
 
 If no policy rule requires MFA, the response status will be __SUCCESS__ and include a sessionToken that can be exchanged for a sessionCookie (see below).
 
@@ -69,7 +69,7 @@ Where _sessionToken_ is the sessionToken value received in the response to _Prim
 
 __Note:__ In order to check for an active session, you can call the /api/v1/sessions/me endpoint (see _Get Current Session_ below).
 
-####status: MFA_REQUIRED
+#### status: MFA_REQUIRED
 
 If a policy rule requires MFA, the response from _Primary Authentication_ will indicate status of __MFA_REQUIRED__, and will include a list of any MFA factors that the user has already enrolled.
 ```json
@@ -169,11 +169,11 @@ If a policy rule requires MFA, the response from _Primary Authentication_ will i
 }
 ```
 
-###Challenge for MFA
+### Challenge for MFA
 
 For this example, we will challenge our user to verify an SMS challenge. 
 
-####Send a new SMS challenge
+#### Send a new SMS challenge
 
 __Postman Request: _Verify SMS Factor (new OTP challenge)___
 ```bash
@@ -216,7 +216,7 @@ Where _factorId_ is the ID of the SMS factor from the /authn response above.  We
 }
 ```
 
-####Verify the SMS
+#### Verify the SMS
 
 To verify the SMS challenge, call the same API but include the verification code provided by the user:
 __Postman Request: _Verify SMS Factor (verify token)___
@@ -255,7 +255,7 @@ If the verification succeeds, our response will include a sessionToken that can 
 }
 ```
 
-###Enroll an MFA factor
+### Enroll an MFA factor
 
 This example shows how to enroll Google Authenticator as an MFA factor.
 __Postman Request: _Enroll Google Authenticator Factor___
@@ -577,9 +577,9 @@ curl -X GET \
 ]
 ```
 
-##User Registration
+## User Registration
 
-###Create a user with a password
+### Create a user with a password
 
 This request is typical for registering new users into a custom application. The registration form should collect the user's first and last name, primary email address, and preferred username (email format is not required), as well as the user's password. The _activate=true_ query parameter will cause this user to be created in Okta as in an active status.
 
@@ -680,7 +680,7 @@ A successful response looks like this:
 }
 ```
 
-###Auto-enrolling SMS factor
+### Auto-enrolling SMS factor
 
 If your registration form collects the users mobile number, you can auto-enroll that number for SMS Multi-factor Authentication: https://developer.okta.com/docs/api/resources/factors#enroll-and-auto-activate-okta-sms-factor
 
